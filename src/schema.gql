@@ -1,0 +1,31 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Student {
+  id: Float!
+  studentName: String!
+  class: Class!
+}
+
+type Class {
+  id: Float!
+  className: String!
+  students: [Student!]
+}
+
+type Query {
+  getAllClasses: [Class!]!
+  getClassById(id: Float!): Class!
+  getAllStudents: [Student!]!
+  getStudentById(id: Float!): Student!
+}
+
+type Mutation {
+  createClass(className: String!): Class!
+  updateClass(id: Float!, className: String!): Class!
+  deleteClass(id: Float!): String!
+  createStudent(studentName: String!, className: String!): Student!
+  updateStudent(id: Float!, studentName: String!): Student!
+  deleteStudent(id: Float!): String!
+}
