@@ -18,9 +18,11 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const class_entity_1 = require("../entity/class.entity");
 const common_2 = require("@nestjs/common");
+const student_entity_1 = require("../entity/student.entity");
 let ClassService = class ClassService {
-    constructor(classRepository) {
+    constructor(classRepository, studentRepository) {
         this.classRepository = classRepository;
+        this.studentRepository = studentRepository;
     }
     async createClass(body) {
         const existingClass = await this.getClassByName(body.className);
@@ -55,8 +57,15 @@ let ClassService = class ClassService {
     }
     async deleteClass(id) {
         const cls = await this.getClassById(id);
-        if (!cls)
+        if (!cls) {
             throw new Error('Class not found');
+        }
+        const students = await this.studentRepository.find({
+            where: { class: { id } },
+        });
+        if (students.length > 0) {
+            throw new Error('Cannot delete class with students enrolled');
+        }
         return this.classRepository.remove(cls);
     }
 };
@@ -64,6 +73,8 @@ exports.ClassService = ClassService;
 exports.ClassService = ClassService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(class_entity_1.Class)),
-    __metadata("design:paramtypes", [typeorm_1.Repository])
+    __param(1, (0, typeorm_2.InjectRepository)(student_entity_1.Student)),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository])
 ], ClassService);
 //# sourceMappingURL=class.service.js.map

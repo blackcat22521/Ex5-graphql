@@ -10,13 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClassDto = void 0;
+const graphql_1 = require("@nestjs/graphql");
 const class_validator_1 = require("class-validator");
-class ClassDto {
-}
+let ClassDto = class ClassDto {
+};
 exports.ClassDto = ClassDto;
 __decorate([
+    (0, graphql_1.Field)(),
     (0, class_validator_1.IsNotEmpty)({ message: 'className is required.' }),
     (0, class_validator_1.IsString)({ message: 'className must be a string.' }),
     __metadata("design:type", String)
 ], ClassDto.prototype, "className", void 0);
+exports.ClassDto = ClassDto = __decorate([
+    (0, graphql_1.InputType)()
+], ClassDto);
 //# sourceMappingURL=class.dto.js.map

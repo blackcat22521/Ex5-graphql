@@ -3,14 +3,16 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Class } from 'src/entity/class.entity';
 import { ConflictException } from '@nestjs/common';
+import { Student } from 'src/entity/student.entity';
 
 @Injectable()
 export class ClassService {
   constructor(
     @InjectRepository(Class)
     private readonly classRepository: Repository<Class>,
+    @InjectRepository(Student)
+    private readonly studentRepository: Repository<Student>,
   ) {}
-
   async createClass(body: { className: string }) {
     const existingClass = await this.getClassByName(body.className);
     if (existingClass) {
@@ -53,7 +55,17 @@ export class ClassService {
 
   async deleteClass(id: number) {
     const cls = await this.getClassById(id);
-    if (!cls) throw new Error('Class not found');
+    if (!cls) {
+      throw new Error('Class not found');
+    }
+    const students = await this.studentRepository.find({
+      where: { class: { id } },
+    });
+
+    if (students.length > 0) {
+      throw new Error('Cannot delete class with students enrolled');
+    }
+
     return this.classRepository.remove(cls);
   }
 }

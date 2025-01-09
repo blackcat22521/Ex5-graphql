@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
+const graphql_1 = require("@nestjs/graphql");
 let RoleGuard = class RoleGuard {
     constructor(reflector) {
         this.reflector = reflector;
@@ -21,8 +22,9 @@ let RoleGuard = class RoleGuard {
         if (!requiredRoles) {
             return true;
         }
-        const request = context.switchToHttp().getRequest();
-        const authHeader = request.headers.authorization;
+        const ctx = graphql_1.GqlExecutionContext.create(context);
+        const { req } = ctx.getContext();
+        const authHeader = req?.headers?.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return false;
         }

@@ -16,16 +16,25 @@ type Class {
 
 type Query {
   getAllClasses: [Class!]!
-  getClassById(id: Float!): Class!
+  getClassById(id: ID!): Class!
   getAllStudents: [Student!]!
-  getStudentById(id: Float!): Student!
+  getStudentById(id: ID!): Student!
 }
 
 type Mutation {
   createClass(className: String!): Class!
-  updateClass(id: Float!, className: String!): Class!
-  deleteClass(id: Float!): String!
-  createStudent(studentName: String!, className: String!): Student!
-  updateStudent(id: Float!, studentName: String!): Student!
+  updateClass(id: ID!, className: String!): Class!
+  deleteClass(id: Float!): Boolean!
+  createStudent(createStudentDto: CreateStudentDto!): Student!
+  updateStudent(id: ID!, updateStudentDto: UpdateStudentDto!): Student!
   deleteStudent(id: Float!): String!
+}
+
+input CreateStudentDto {
+  studentName: String!
+  className: String!
+}
+
+input UpdateStudentDto {
+  studentName: String!
 }

@@ -16,6 +16,6 @@ export class TransformStudentPipe
       value.studentName = studentName.trim();
     }
 
-    return value; // Trả về dữ liệu đã được chuyển đổi
+    return value;
   }
 }

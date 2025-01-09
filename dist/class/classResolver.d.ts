@@ -7,5 +7,5 @@ export declare class ClassResolver {
     getClassById(id: number): Promise<Class>;
     createClass(className: string): Promise<Class>;
     updateClass(id: number, className: string): Promise<Class>;
-    deleteClass(id: number): Promise<string>;
+    deleteClass(id: number): Promise<boolean>;
 }

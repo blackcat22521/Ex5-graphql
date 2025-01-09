@@ -1,8 +1,10 @@
 import { Repository } from 'typeorm';
 import { Class } from 'src/entity/class.entity';
+import { Student } from 'src/entity/student.entity';
 export declare class ClassService {
     private readonly classRepository;
-    constructor(classRepository: Repository<Class>);
+    private readonly studentRepository;
+    constructor(classRepository: Repository<Class>, studentRepository: Repository<Student>);
     createClass(body: {
         className: string;
     }): Promise<Class>;
